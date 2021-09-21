@@ -8,8 +8,8 @@ const mongoose = require('mongoose'); //application MongoDB
 mongoose.connect('mongodb+srv://Admin:<coucou>@clustersauces.axin0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
-  .then(() => console.log('Connexion à MongoDB réussie !'))
-  .catch(() => console.log('Connexion à MongoDB échouée !'));
+  .then(() => console.log('Connexion à MongoDB réussie'))
+  .catch(() => console.log('Connexion à MongoDB échouée'));
 
 
 /*middleware communication des différent port(localhost) possible*/
@@ -20,9 +20,9 @@ app.use((req, res, next) => {
   next();
 });
 
-/*middlewares de confirmation*/
+/*middlewares de confirmation
 app.use((req, res, next) => {
-  console.log('Requête reçue !');
+  console.log('Requête reçue');
   next();
 });
 app.use((req, res, next) => {
@@ -30,15 +30,15 @@ app.use((req, res, next) => {
   next();
 });
 app.use((req, res, next) => {
-  res.json({ message: 'Votre requête a bien été reçue !' });
+  res.json({ message: 'Votre requête a bien été reçue'});
   next();
 });
 app.use((req, res, next) => {
-  console.log('Réponse envoyée avec succès !');
+  console.log('Réponse envoyée avec succès');
 });
 
 app.post('/api/sauces', (req, res, next) => {
-})
+})*/
 
 /*parle en json*/
 app.use(bodyParser.json());
@@ -50,7 +50,7 @@ const saucesRoutes = require('./routes/sauces');
 app.use('/api/sauces', saucesRoutes);
 
 const userRoutes = require('./routes/user');
-app.use('/api/stuff', stuffRoutes);
+app.use('/api/sauces', saucesRoutes);
 app.use('/api/auth', userRoutes);
 
 module.exports = app;
