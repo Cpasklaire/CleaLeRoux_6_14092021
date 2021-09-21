@@ -1,7 +1,8 @@
-const http = require('http');
+/*créer un serveur Node*/
+const http = require('http'); //package HTTP natif de Node
 const app = require('./app');
 
-const normalizePort = val => {
+const normalizePort = val => { //normalizePort : renvoie un port valide
   const port = parseInt(val, 10);
 
   if (isNaN(port)) {
@@ -12,10 +13,10 @@ const normalizePort = val => {
   }
   return false;
 };
-const port = normalizePort(process.env.PORT || '8080');
+const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-const errorHandler = error => {
+const errorHandler = error => { //errorHandler : recherche les différentes erreurs et les gère de manière appropriée. Elle est ensuite enregistrée dans le serveur 
   if (error.syscall !== 'listen') {
     throw error;
   }
@@ -44,4 +45,4 @@ server.on('listening', () => {
   console.log('Listening on ' + bind);
 });
 
-server.listen(port);
+server.listen(port); //ce démarre avec 'node server' ou 'nodemon server' et ng serve =run front end (sur un autre port, a faire de puis le front)

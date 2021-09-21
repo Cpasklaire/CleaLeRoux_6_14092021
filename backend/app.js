@@ -1,87 +1,56 @@
-const mongoose = require('mongoose');
+/*communication avec le serveur*/
+const express = require('express');
+const app = express(); /*application Express*/
+const bodyParser = require('body-parser'); //application body-parser
+const mongoose = require('mongoose'); //application MongoDB
 
-mongoose.connect('mongodb+srv://<Admin>:<coucou>@clustersauces.axin0.mongodb.net/test?retryWrites=true&w=majority',
+/*connection à MongoDB*/
+mongoose.connect('mongodb+srv://Admin:<coucou>@clustersauces.axin0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
+
+/*middleware communication des différent port(localhost) possible*/
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-    next();
-  });
-  
-  app.use('/api/sauces', (req, res, next) => {
-    const stuff = [
-      {
-        userId: 'identifiant MongoDB créateur sauce',
-        name: 'nom sauce',
-        manufactuer: 'fabrican',
-        description: 'description de la sauce',
-        mainPeper: 'ingrédiant principal',
-        imageUrl: 'imagesauce',
-        heat: 10,
-        likes: 11,
-        dislikes: 12,
-        usersLiked: 'tableau personne qui on like',
-        userDislider: 'tableau personne qui on dislike',
-      },
-    ];
-    res.status(200).json(stuff);
-  });
+  res.setHeader('Access-Control-Allow-Origin', '*'); //accéder à notre API depuis n'importe quelle origine
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization'); //ajouter les headers mentionnés aux requêtes envoyées vers notre API
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS'); //envoyer des requêtes avec les méthodes mentionnées
+  next();
+});
 
-  const bodyParser = require('body-parser');
-  app.use(bodyParser.json());
+/*middlewares de confirmation*/
+app.use((req, res, next) => {
+  console.log('Requête reçue !');
+  next();
+});
+app.use((req, res, next) => {
+  res.status(201);
+  next();
+});
+app.use((req, res, next) => {
+  res.json({ message: 'Votre requête a bien été reçue !' });
+  next();
+});
+app.use((req, res, next) => {
+  console.log('Réponse envoyée avec succès !');
+});
 
-  app.post('/api/sauces', (req, res, next) => {
-    console.log(req.body);
-    res.status(201).json({
-      message: 'Objet créé !'
-    });
-  });
+app.post('/api/sauces', (req, res, next) => {
+})
 
-  const Thing = require('./models/thing');
+/*parle en json*/
+app.use(bodyParser.json());
 
-  //enregistrement dans la BdS
-  app.post('/api/sauces', (req, res, next) => {
-    delete req.body._id;
-    const sauce = new Sauce({
-      ...req.body
-    });
-    sauce.save()
-      .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
-      .catch(error => res.status(400).json({ error }));
-  });
+const path = require('path');
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
-  //récupération total
-  app.use('/api/sauces', (req, res, next) => {
-    Sauces.find()
-      .then(sauces => res.status(200).json(sauces))
-      .catch(error => res.status(400).json({ error }));
-  });
+const saucesRoutes = require('./routes/sauces');
+app.use('/api/sauces', saucesRoutes);
 
-  //récupération spécifique
-  app.get('/api/sauces/:id', (req, res, next) => {
-    Sauces.findOne({ _id: req.params.id })
-      .then(sauce => res.status(200).json(sauce))
-      .catch(error => res.status(404).json({ error }));
-  });
+const userRoutes = require('./routes/user');
+app.use('/api/stuff', stuffRoutes);
+app.use('/api/auth', userRoutes);
 
-  //MaJ sauce existante
-  app.put('/api/sauces/:id', (req, res, next) => {
-    Sauce.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
-      .then(() => res.status(200).json({ message: 'Objet modifié !'}))
-      .catch(error => res.status(400).json({ error }));
-  });
-
-  //Supprimer sauce
-  app.delete('/api/sauce/:id', (req, res, next) => {
-    Sauce.deleteOne({ _id: req.params.id })
-      .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
-      .catch(error => res.status(400).json({ error }));
-  });
-
-  const stuffRoutes = require('./routes/stuff');
-  app.use('/api/stuff', stuffRoutes);
+module.exports = app;
