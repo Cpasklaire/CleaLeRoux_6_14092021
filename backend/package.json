@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "author": "Clea",
   "license": "ISC",
@@ -19,6 +19,3 @@
   "devDependencies": {},
   "description": ""
 }
-
-/*npm install -g nodemon
-nodemon server*/
