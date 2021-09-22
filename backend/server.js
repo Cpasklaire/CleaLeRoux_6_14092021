@@ -39,4 +39,4 @@ server.on('listening', () => {
   console.log('Listening on ' + bind);
 });
 
-server.listen(port); //ce démarre avec 'node server' ou 'nodemon server' et ng serve =run front end (sur un autre port, a faire de puis le front)
+server.listen(port); //ce démarre avec 'node server' ou 'nodemon server' 

@@ -1,11 +1,11 @@
 /*communication avec le serveur*/
 const express = require('express');
-const app = express(); /*application Express*/
 const bodyParser = require('body-parser'); //application body-parser
 const mongoose = require('mongoose'); //application MongoDB
+const app = express(); /*application Express*/
 
 /*connection à MongoDB*/
-mongoose.connect('mongodb+srv://Admin:<coucou>@clustersauces.axin0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://Admin:coucou@clustersauce.utecq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie'))
