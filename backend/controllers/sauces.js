@@ -1,6 +1,7 @@
 const fs = require('fs'); //application pour modifier système de fichiers
 
 const Sauce = require('../models/sauce');
+const user = require('../models/user');
 
 /*POST /api/sauces Création sauce*/
 exports.createSauce = (req, res, next) => {
@@ -59,3 +60,8 @@ exports.getAllSauces = (req, res, next) => {
         ).catch((error) => {res.status(400).json({error: error});}
     );
 };
+
+/*POST like*/
+exports.likeSauce = (req, res, next) => {
+    user.find([user.name])
+}
