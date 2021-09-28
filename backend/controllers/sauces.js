@@ -1,4 +1,13 @@
 const fs = require('fs'); //application pour modifier système de fichiers
+const path = require('path')
+
+const mkdirSync = function (dirPath) {
+  try {
+    fs.mkdirSync(dirPath)
+  } catch (err) {
+    if (err.code !== 'EEXIST') throw err
+  }
+}
 
 const Sauce = require('../models/sauce');
 const user = require('../models/user');
@@ -9,6 +18,7 @@ exports.createSauce = (req, res, next) => {
     delete sauceObject._id;
     const sauce = new Sauce({
         ...sauceObject, //L'opérateur spread ... est utilisé pour faire une copie de tous les éléments de req.body
+        mkdirSync(path.resolve('./backend/images')),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
     sauce.save()
