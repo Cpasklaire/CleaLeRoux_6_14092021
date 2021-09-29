@@ -1,13 +1,10 @@
 const fs = require('fs'); //application pour modifier système de fichiers
-const path = require('path')
+const path = require('path');
+const mkdirp = require('mkdirp');
 
-const mkdirSync = function (dirPath) {
-  try {
-    fs.mkdirSync(dirPath)
-  } catch (err) {
-    if (err.code !== 'EEXIST') throw err
-  }
-}
+/*création docier images*/
+mkdirp('./images').then(made =>
+console.log(`made directories, starting with ${made}`));
 
 const Sauce = require('../models/sauce');
 const user = require('../models/user');
@@ -18,7 +15,6 @@ exports.createSauce = (req, res, next) => {
     delete sauceObject._id;
     const sauce = new Sauce({
         ...sauceObject, //L'opérateur spread ... est utilisé pour faire une copie de tous les éléments de req.body
-        mkdirSync(path.resolve('./backend/images')),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
     sauce.save()
@@ -73,5 +69,17 @@ exports.getAllSauces = (req, res, next) => {
 
 /*POST like*/
 exports.likeSauce = (req, res, next) => {
-    user.find([user.name])
-}
+    Sauce.findOne({ _id: req.params.id })
+    .then(sauce => {
+      switch (req.body.like) {
+        case 1:
+          break;
+        case 0:
+          break;
+        case -1: 
+          break;
+      }
+      res.status(200).json( {message: 'Opignion pris en compte'} )
+    })
+    .catch(error => res.status(500).json({ error }));
+};
