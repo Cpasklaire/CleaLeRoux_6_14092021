@@ -1,10 +1,4 @@
 const fs = require('fs'); //application pour modifier système de fichiers
-const path = require('path');
-const mkdirp = require('mkdirp');
-
-/*création docier images*/
-mkdirp('./images').then(made =>
-console.log(`made directories, starting with ${made}`));
 
 const Sauce = require('../models/sauce');
 const user = require('../models/user');
@@ -76,10 +70,10 @@ exports.likeSauce = (req, res, next) => {
           break;
         case 0:
           break;
-        case -1: 
+        case -1:
           break;
       }
-      res.status(200).json( {message: 'Opignion pris en compte'} )
+      res.status(200).json( {message: 'tout vas bien'} )
     })
     .catch(error => res.status(500).json({ error }));
 };

@@ -1,6 +1,5 @@
 /*communication avec le serveur*/
 const express = require('express');
-const bodyParser = require('body-parser'); //application body-parser
 const mongoose = require('mongoose'); //application MongoDB
 const app = express(); /*application Express*/
 
@@ -21,7 +20,8 @@ app.use((req, res, next) => {
 });
 
 /*parle en json*/
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 const path = require('path');
 app.use('/images', express.static(path.join(__dirname, 'images')));

@@ -1,10 +1,16 @@
 const multer = require('multer');
+const path = require('path');
+const mkdirp = require('mkdirp');
 
 const MIME_TYPES = {
   'image/jpg': 'jpg',
   'image/jpeg': 'jpg',
   'image/png': 'png'
 };
+
+/*création docier images*/
+mkdirp('./images').then(made =>
+    console.log(`made directories, starting with ${made}`));
 
 /*enregistrer les images*/
 const storage = multer.diskStorage({
