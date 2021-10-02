@@ -64,17 +64,62 @@ exports.getAllSauces = (req, res, next) => {
 /*POST like*/
 exports.likeSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
-    switch (req.body.like)
+    const userId = req.body.userId;
+    const usersLiked = [req.body.usersLiked];
+    const usersDisliked = [req.body.usersDisliked];
+    switch (req.body.like & req.body.dislikes)
     {
-        case 1: if (usersLiked.includes(req.body.userId))
+        case 1: if (usersLiked.includes(userId))
+        {
+            return;
+        }
+        else 
         {
             Sauce.updateOne(
             { 
                 $inc: {likes: 1 }, 
-                $push: {usersLiked: req.body.userId}, _id: req.params.id
+                $push: {usersLiked: userId}, _id: req.params.id
             })
-                    .then(() => res.status(201).json({ message: "j'aime !" }))
+                    .then(() => res.status(201).json({ message: "jaime !" }))
                     .catch(error => res.status(400).json({ error }))
         };
          break;
+
+         case 0: if (usersLiked.includes(userId)) 
+         {
+            Sauce.updateOne(
+            { 
+                $inc: {likes: -1 }, 
+                $pull: {usersLiked: userId}, _id: req.params.id 
+            })
+                   .then(() => res.status(201).json({ message: "like enlevé" }))
+                   .catch(error => res.status(400).json({ error }));
+        } 
+        else(usersDisliked.includes(userId)) 
+        {
+            Sauce.updateOne(
+            { 
+                $inc: {dislikes: -1 }, 
+                $pull: {usersDisliked: userId}, _id: req.params.id 
+            })
+                   .then(() => res.status(201).json({ message: "dislike enlevé" }))
+                   .catch(error => res.status(400).json({ error }));
+        }
+            break;
+        case -1: if (usersDisliked.includes(userId))
+        {
+            return;
+        }
+        else 
+        {
+            Sauce.updateOne(
+            { 
+                $inc: {dislikes: 1 }, 
+                $push: {usersDisliked: userId}, _id: req.params.id
+            })
+                    .then(() => res.status(201).json({ message: "jaime pas!" }))
+                    .catch(error => res.status(400).json({ error }))
+        };
+            break;
+    }
 };

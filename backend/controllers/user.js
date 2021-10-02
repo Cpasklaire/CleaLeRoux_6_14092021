@@ -5,6 +5,12 @@ const bcrypt = require('bcrypt'); //application bcrypt
 const User = require('../models/user');
 
 exports.signup = (req, res, next) => {
+    if (email.includes(req.body.email))
+    {
+        return
+    }
+    else
+    {
     bcrypt.hash(req.body.password, 10) //« saler » le mot de passe 10 fois
         .then(hash => {
             const user = new User({
@@ -15,7 +21,9 @@ exports.signup = (req, res, next) => {
             .then(() => res.status(201).json({ message: 'Utilisateur créé' }))
             .catch(error => res.status(400).json({ error }));
         })
+    
     .catch(error => res.status(500).json({ error }));
+    }
 };
 
 exports.login = (req, res, next) => {
