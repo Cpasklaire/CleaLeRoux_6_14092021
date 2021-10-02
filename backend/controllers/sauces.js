@@ -64,29 +64,17 @@ exports.getAllSauces = (req, res, next) => {
 /*POST like*/
 exports.likeSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
-    .then(sauce => {
-      switch (req.body.like) {
-        case 1: //reprendre tableau pour modifier + userId-unique
-          break;
-        case 0: //-userId
-          break;
-        case -1:
-          break;
-          //faire un retour tableau pour les NaN
-          //test conditionnelle +function ()
-          // {bloc de code}
-          //js {valeur de l'objet}
-
-          /*var fruits = ["Banana", "Orange", "Apple", "Mango"];
-
-var n = fruits.includes("Mango");*/
-
-/*var colors = ["red","blue","car","green"];
-var carIndex = colors.indexOf("car");//get  "car" index
-//remove car from the colors array
-colors.splice(carIndex, 1)*/
-      }
-      res.status(200).json( {message: 'tout vas bien'} )
-    })
-    .catch(error => res.status(500).json({ error }));
+    switch (req.body.like)
+    {
+        case 1: if (usersLiked.includes(req.body.userId))
+        {
+            Sauce.updateOne(
+            { 
+                $inc: {likes: 1 }, 
+                $push: {usersLiked: req.body.userId}, _id: req.params.id
+            })
+                    .then(() => res.status(201).json({ message: "j'aime !" }))
+                    .catch(error => res.status(400).json({ error }))
+        };
+         break;
 };
