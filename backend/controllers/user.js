@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');//application token
 const bcrypt = require('bcrypt'); //application bcrypt
+//unique user
 
 const User = require('../models/user');
 

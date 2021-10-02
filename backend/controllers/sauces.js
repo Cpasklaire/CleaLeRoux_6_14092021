@@ -46,7 +46,7 @@ exports.deleteSauce = (req, res, next) => {
             const filename = sauce.imageUrl.split('/images/')[1];
             fs.unlink(`images/${filename}`, () => { //fonction unlink du package fs pour supprimer
                 Sauce.deleteOne({ _id: req.params.id })
-                    .then(() => res.status(200).json({ message: 'Sauce supprimé'}))
+                    .then(() => res.status(200).json({ message: 'Sauce supprimé'}))           
                     .catch(error => res.status(400).json({ error }));
         });
     })
@@ -66,12 +66,25 @@ exports.likeSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
     .then(sauce => {
       switch (req.body.like) {
-        case 1:
+        case 1: //reprendre tableau pour modifier + userId-unique
           break;
-        case 0:
+        case 0: //-userId
           break;
         case -1:
           break;
+          //faire un retour tableau pour les NaN
+          //test conditionnelle +function ()
+          // {bloc de code}
+          //js {valeur de l'objet}
+
+          /*var fruits = ["Banana", "Orange", "Apple", "Mango"];
+
+var n = fruits.includes("Mango");*/
+
+/*var colors = ["red","blue","car","green"];
+var carIndex = colors.indexOf("car");//get  "car" index
+//remove car from the colors array
+colors.splice(carIndex, 1)*/
       }
       res.status(200).json( {message: 'tout vas bien'} )
     })

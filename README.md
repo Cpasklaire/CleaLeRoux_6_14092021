@@ -3,7 +3,6 @@ Projet 6 open class room
 # HOT TAKES #
 
 **Frontend**
-cd ./frontend
 ## Installation ##
 Here are the dependancies you need to install:
 - NodeJS 12.14 or 14.0.
@@ -21,6 +20,15 @@ Use `Ctrl+C` in the terminal to stop the local server.
 **backend**
 cd ./backend
 ## Installation ##
-`npm install`
+Pour installer le backend lancer `npm install` depuis le docier backend (`cd ./backend`)
 ## Usage ##
-`npm start`
+Après l'installation modifier le exemple.env en .env pour qu'il soit pris en compte, et incorporer y votre base de donnée mongodb
+
+Pour l'utilisation il vous suffit de lancer `npm start` toujours du dossier backend. 
+Trois information son a vérifier dans la console
+- Listening on port 3000 (la lecture du backend se fait sur le port 3000)
+- Connexion à MongoDB réussi (si échouer il faut revoir le .env)
+- création du dossier images
+
+Vous êtes près ! 
+
