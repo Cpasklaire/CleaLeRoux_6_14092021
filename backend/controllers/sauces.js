@@ -63,13 +63,58 @@ exports.getAllSauces = (req, res, next) => {
 
 /*POST like*/
 exports.likeSauce = (req, res, next) => {
-    Sauce.findOne({ _id: req.params.id })
+    Sauce.findOne({ _id: req.params.id }); //j'appele la sauce
+    switch (req.body.like) //je met les link en place
+    {        
+        case 1: 
+        if(Sauce.findOne({usersLiked: req.params.usersLiked}).includes(req.body.userId))
+        {
+            return
+        } else
+        {
+        Sauce.updateOne({ 
+            $inc: {likes: 1 }, 
+            $push: {usersLiked: req.body.userId}, 
+        _id: req.params.id })
+            .then(() => res.status(201).json({ message: "like" }))
+            .catch(error => res.status(400).json({ error }));
+        }
+        break;
+
+        case -1: Sauce.updateOne({ 
+            $inc: {dislikes: 1 }, 
+            $push: {usersDisliked: req.body.userId}, _id: req.params.id })
+                .then(() => res.status(201).json({ message: "dislink" }))
+                .catch(error => res.status(400).json({ error }));
+          break;
+  
+        case 0: if (usersLiked.includes(req.body.userId)) {
+            Sauce.updateOne({ 
+                $inc: {likes: -1 }, 
+                $pull: {usersLiked: req.body.userId}, 
+            _id: req.params.id })
+                .then(() => res.status(201).json({ message: "anti link" }))
+                .catch(error => res.status(400).json({ error }));
+        } else if(usersDisliked.includes(req.body.userId)) {
+            Sauce.updateOne({ 
+                $inc: {dislikes: -1 }, 
+                $pull: {usersDisliked: req.body.userId}, 
+            _id: req.params.id })
+                .then(() => res.status(201).json({ message: "anti dislike" }))
+                .catch(error => res.status(400).json({ error }));
+        }
+        break;
+    }
+};
+
+/*    Sauce.findOne({ _id: req.params.id })
+    Sauce.findOne({usersLiked: req.params.usersLiked})
     const userId = req.body.userId;
     const usersLiked = [req.body.usersLiked];
     const usersDisliked = [req.body.usersDisliked];
     switch (req.body.like & req.body.dislikes)
     {
-        case 1: if (usersLiked.includes(userId))
+        case 1: if (Sauce.findOne({usersLiked: req.params.usersLiked}).includes(userId))
         {
             return;
         }
@@ -122,4 +167,4 @@ exports.likeSauce = (req, res, next) => {
         };
             break;
     }
-};
+};*/
