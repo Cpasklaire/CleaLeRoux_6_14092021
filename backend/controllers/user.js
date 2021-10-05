@@ -3,7 +3,12 @@ const bcrypt = require('bcrypt'); //application bcrypt
 
 const User = require('../models/user');
 
-exports.signup = (req, res, next) => {
+
+
+exports.signup = async (req, res, next) => {
+    let usermail = await User.findOne({email: req.body.email});
+if(!usermail)
+{
     bcrypt.hash(req.body.password, 10) //« saler » le mot de passe 10 fois
         .then(hash => {
             const user = new User({
@@ -12,10 +17,14 @@ exports.signup = (req, res, next) => {
             });
         user.save()
             .then(() => res.status(201).json({ message: 'Utilisateur créé' }))
-            .catch(error => res.status(401).json({ error, message : 'Adresse email déja utilisé' }));
+            .catch(error => res.status(401).json({ error}));
         })
-    
-    .catch(error => res.status(500).json({ error }));
+}    
+else
+{
+    return res.status(422).json({ message : "Adresse mail déja utilisée" })
+}
+    //.catch(error => res.status(500).json({ error }));
 };
 
 exports.login = (req, res, next) => {

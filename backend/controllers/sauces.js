@@ -86,7 +86,7 @@ exports.likeSauce = async (req, res, next) => {
             }
             else
             {
-                res.status(400).json({ message: 'vous avez déja liker' });
+                res.status(418).json({ message: 'vous avez déja liker avec une théiére' });
             }
         break;
 
