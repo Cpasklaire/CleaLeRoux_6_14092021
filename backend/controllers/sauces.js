@@ -1,8 +1,6 @@
 const fs = require('fs'); //application pour modifier système de fichiers
-const sauce = require('../models/sauce');
 
 const Sauce = require('../models/sauce');
-const user = require('../models/user');
 
 /*POST /api/sauces Création sauce*/
 exports.createSauce = (req, res, next) => {
@@ -128,7 +126,7 @@ exports.likeSauce = async (req, res, next) => {
                 Sauce.updateOne({  _id: req.params.id },
                     {
                         $inc: {dislikes: -1 }, 
-                        $pull: {usersLiked: req.body.userId}
+                        $pull: {usersDisliked: req.body.userId}
                     })
                 .then(() => res.status(201).json({ message: "anti dislike" }))
                 .catch(error => res.status(400).json({ error }));    
