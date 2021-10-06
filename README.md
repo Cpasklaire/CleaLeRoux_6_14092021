@@ -18,7 +18,9 @@ The app should reload automatically when you make a change to a file.
 Use `Ctrl+C` in the terminal to stop the local server.
 
 **backend**
-cd ./backend
+`cd ./backend
+npm install
+npm start`
 ## Installation ##
 Pour installer le backend lancer `npm install` depuis le docier backend (`cd ./backend`)
 ## Usage ##

@@ -7,25 +7,23 @@ const User = require('../models/user');
 
 exports.signup = async (req, res, next) => {
     let usermail = await User.findOne({email: req.body.email});
-if(!usermail)
-{
-    bcrypt.hash(req.body.password, 10) //« saler » le mot de passe 10 fois
-        .then(hash => {
-            const user = new User({
-                email: req.body.email,
-                password: hash
-            });
-        user.save()
-            .then(() => res.status(201).json({ message: 'Utilisateur créé' }))
-            .catch(error => res.status(401).json({ error}));
-        })
-}    
-else
-{
-    return res.status(422).json({ message : "Adresse mail déja utilisée" })
-}
-    //.catch(error => res.status(500).json({ error }));
-};
+        if(!usermail)
+        {
+            bcrypt.hash(req.body.password, 10) //« saler » le mot de passe 10 fois
+                .then(hash => {
+                    const user = new User({
+                    email: req.body.email,
+                    password: hash
+                    });
+                user.save()
+                    .then(() => res.status(201).json({ message: 'Utilisateur créé' }))
+                    .catch(error => res.status(401).json({ error}));
+                })
+        }    
+        else
+        {
+            return res.status(422).json({ message : "Adresse mail déja utilisée" })
+        }};
 
 exports.login = (req, res, next) => {
     User.findOne({ email: req.body.email })
