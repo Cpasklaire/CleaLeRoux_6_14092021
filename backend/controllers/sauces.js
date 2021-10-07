@@ -8,7 +8,7 @@ exports.createSauce = (req, res, next) => {
     delete sauceObject._id;
     const sauce = new Sauce({
         ...sauceObject, //L'opérateur spread ... est utilisé pour faire une copie de tous les éléments de req.body
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`, //http://host/chemin l'image
         likes: 0, //non donné par le front
         dislikes: 0,
         usersLiked: [],

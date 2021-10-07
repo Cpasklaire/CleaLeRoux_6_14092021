@@ -9,7 +9,7 @@ exports.signup = async (req, res, next) => {
     let usermail = await User.findOne({email: req.body.email});
         if(!usermail)
         {
-            bcrypt.hash(req.body.password, 10) //« saler » le mot de passe 10 fois
+            bcrypt.hash(req.body.password, 10) //« saler » le mot de passe + 10
                 .then(hash => {
                     const user = new User({
                     email: req.body.email,
