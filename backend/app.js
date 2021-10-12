@@ -1,7 +1,6 @@
 /*communication avec le serveur*/
 const express = require('express');
 const mongoose = require('mongoose'); //application MongoDB
-const mongooseerrors = require('mongoose-errors'); //retour erreur MongoDB
 const app = express(); /*application Express*/
 require('dotenv').config(); //application .env
 
